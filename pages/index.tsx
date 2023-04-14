@@ -39,6 +39,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 import { event } from "nextjs-google-analytics";
 import {IncomingMessage} from "http";
+import jwt, {Jwt, Secret} from 'jsonwebtoken';
+
 
 interface HomeProps {
   serverSideApiKeyIsSet: boolean;
@@ -830,7 +832,7 @@ const Home: React.FC<HomeProps> = ({
   return (
     <>
       <Head>
-        <title>Chat Everywhere</title>
+        <title>ChrisGPT</title>
         <meta name="description" content="Use ChatGPT anywhere" />
         <meta
           name="viewport"
@@ -957,19 +959,22 @@ const Home: React.FC<HomeProps> = ({
 export default Home;
 
 
-async function isAuthenticated(req: IncomingMessage) {
-  // Check if the user is authenticated.
-  // This could involve checking for cookies or tokens.
-  // Return true if authenticated, false otherwise.
-  console.log("req", req);
+async function isAuthenticated(req: IncomingMessage & { cookies: Partial<{ [p:string]:string }>}) {
+  try {
+    const token: string | undefined = req.cookies['CHRIS_GPT'];
+    if (!token) return false;
 
-  return false;
+    const secretKey = process.env.JWT_SECRET;
+    const decoded = jwt.verify(token, secretKey);
+    return !!decoded;
+  } catch (error) {
+    return false;
+  }
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ locale , req}) => {
   // Check if the user is authenticated
-  const isLoggedIn = await isAuthenticated(req);
-
+  let isLoggedIn = await isAuthenticated(req);
   // If the user is not authenticated, redirect to the login page
   if (!isLoggedIn) {
     return {

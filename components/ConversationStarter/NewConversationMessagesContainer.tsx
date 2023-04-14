@@ -21,7 +21,7 @@ const FootNoteMessage: FC = () => {
           rel="noreferrer"
           className="underline"
         >
-          Chat Everywhere
+          ChrisGPT
         </a>{' '}
         by{' '}
         <a
@@ -67,7 +67,7 @@ export const NewConversationMessagesContainer: FC<Props> = ({
 
   return (
     <div>
-      <span className="font-semibold">Chat Everywhere</span>
+      <span className="font-semibold">ChrisGPT</span>
       {
         rolePlayMode ? (
           <RolePlayPrompts roleOnClick={roleOnClick}/>
