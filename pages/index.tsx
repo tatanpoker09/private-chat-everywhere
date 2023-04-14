@@ -964,7 +964,8 @@ async function isAuthenticated(req: IncomingMessage & { cookies: Partial<{ [p:st
     const token: string | undefined = req.cookies['CHRIS_GPT'];
     if (!token) return false;
 
-    const secretKey = process.env.JWT_SECRET;
+    const secretKey = process.env.JWT_SECRET as String;
+    // @ts-ignore
     const decoded = jwt.verify(token, secretKey);
     return !!decoded;
   } catch (error) {
