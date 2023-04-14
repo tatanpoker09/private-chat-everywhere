@@ -29,7 +29,7 @@ import { saveFolders } from '@/utils/app/folders';
 import { exportData, importData } from '@/utils/app/importExport';
 import { savePrompts } from '@/utils/app/prompts';
 import { IconArrowBarLeft, IconArrowBarRight } from '@tabler/icons-react';
-import { GetServerSideProps } from 'next';
+import {GetServerSideProps, NextApiRequest} from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
@@ -38,6 +38,7 @@ import toast from 'react-hot-toast';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 import { event } from "nextjs-google-analytics";
+import {IncomingMessage} from "http";
 
 interface HomeProps {
   serverSideApiKeyIsSet: boolean;
@@ -50,6 +51,10 @@ const Home: React.FC<HomeProps> = ({
   serverSidePluginKeysSet,
   defaultModelId,
 }) => {
+  // check if logged in
+
+
+
   const { t } = useTranslation('chat');
 
   // STATE ----------------------------------------------
@@ -951,7 +956,31 @@ const Home: React.FC<HomeProps> = ({
 };
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+
+async function isAuthenticated(req: IncomingMessage) {
+  // Check if the user is authenticated.
+  // This could involve checking for cookies or tokens.
+  // Return true if authenticated, false otherwise.
+  console.log("req", req);
+
+  return false;
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ locale , req}) => {
+  // Check if the user is authenticated
+  const isLoggedIn = await isAuthenticated(req);
+
+  // If the user is not authenticated, redirect to the login page
+  if (!isLoggedIn) {
+    return {
+      redirect: {
+        destination: '/login', // Change this to your login page URL
+        permanent: false,
+      },
+    };
+  }
+
+  locale = "en"; // TODO force to english for now.
   const defaultModelId =
     (process.env.DEFAULT_MODEL &&
       Object.values(OpenAIModelID).includes(
