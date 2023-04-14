@@ -3,18 +3,25 @@ import { useTranslation } from 'next-i18next';
 
 const DEMO_ROLES = [
   'Accountant',
-  'Writing Tutor', 
+  'Writing Tutor',
   'Life Coach',
-  'Psychologist',
-  'Social Media Influencer',
+  'Email Writing Assistant',
+  'Social Media Post Helper',
   'Career Counselor',
-  'Personal Trainer',
-  'Mental Health Adviser',
-  'Web Design Consultant',
-  'Automobile Mechanic',
-  'Financial Analyst',
-  'Dream Interpreter',
-  'IELTS Tester'
+  'Research Paper Editor',
+  'Python Pair Programmer',
+  'Java Pair Programmer',
+  'JavaScript/TypeScript Pair Programmer',
+  'Data Science & Machine Learning Assistant',
+  'Web Development Consultant',
+  'Database Design Assistant',
+  'Algorithm Design & Analysis Helper',
+  'Software Engineering Best Practices Guide',
+  'Coding Interview Coach',
+  'Project Management Adviser',
+  'Computer Networking Assistant',
+  'Operating Systems Tutor',
+  'Cybersecurity Consultant',
 ];
 
 type Props = {
