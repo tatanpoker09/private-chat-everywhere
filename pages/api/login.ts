@@ -9,11 +9,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // Validate the email and password.
         // Replace the following example with your actual authentication logic.
-        const isValidUsername = email === process.env.USERNAME;
+        const isValidUsername = email === process.env.DESIGNED_EMAIL;
 
         // @ts-ignore
         const isValidPassword = await bcrypt.compare(password, process.env.HASHED_PASSWORD);
-
 
         if (isValidUsername && isValidPassword) {
             // @ts-ignore
